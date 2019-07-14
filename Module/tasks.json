@@ -1,0 +1,112 @@
+{
+    "version": "2.0.0",
+    "windows": {
+        "options": {
+            "shell": {
+                "executable": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+                "args": [
+                    "-NoProfile",
+                    "-ExecutionPolicy",
+                    "Bypass",
+                    "-Command"
+                ]
+            }
+        }
+    },
+    "linux": {
+        "options": {
+            "shell": {
+                "executable": "/usr/bin/pwsh",
+                "args": [
+                    "-NoProfile",
+                    "-Command"
+                ]
+            }
+        }
+    },
+    "osx": {
+        "options": {
+            "shell": {
+                "executable": "/usr/local/bin/pwsh",
+                "args": [
+                    "-NoProfile",
+                    "-Command"
+                ]
+            }
+        }
+    },
+    "tasks": [
+        {
+            "label": "Clean",
+            "type": "shell",
+            "command": "Invoke-Build default.build.ps1 -Task Clean",
+            "problemMatcher": [],
+            "presentation": {
+                "reveal": "always",
+                "showReuseMessage": false,
+                "focus": true
+            }
+        },
+        {
+            "label": "Test",
+            "type": "shell",
+            "command": "Invoke-Pester -PesterOption @{IncludeVSCodeMarker=$true}",
+            "group": {
+                "kind": "test",
+                "isDefault": true
+            },
+            "problemMatcher": [
+                "$pester"
+            ],
+            "presentation": {
+                "reveal": "always",
+                "showReuseMessage": false,
+                "focus": true
+            }
+        },
+        {
+            "label": "Publish",
+            "type": "shell",
+            "command": "Invoke-Build",
+            "problemMatcher": [],
+            "presentation": {
+                "reveal": "always",
+                "showReuseMessage": false,
+                "focus": true
+            }
+        },
+        {
+            "label": "CreateManifest",
+            "type": "shell",
+            "command": "Invoke-Build default.build.ps1 -Task CreateManifest",
+            "problemMatcher": [],
+            "presentation": {
+                "reveal": "always",
+                "showReuseMessage": false,
+                "focus": true
+            }
+        },
+        {
+            "label": "Stats",
+            "type": "shell",
+            "command": "Invoke-Build default.build.ps1 -Task Stats",
+            "problemMatcher": [],
+            "presentation": {
+                "reveal": "always",
+                "showReuseMessage": false,
+                "focus": true
+            }
+        },
+        {
+            "label": "BuildHelp",
+            "type": "shell",
+            "command": "Invoke-Build default.build.ps1 -Task Help",
+            "problemMatcher": [],
+            "presentation": {
+                "reveal": "always",
+                "showReuseMessage": false,
+                "focus": true
+            }
+        }
+    ]
+}

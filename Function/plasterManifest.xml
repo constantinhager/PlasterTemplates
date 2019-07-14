@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<plasterManifest schemaVersion="1.1" templateType="Item"
+  xmlns="http://www.microsoft.com/schemas/PowerShell/Plaster/v1">
+  <metadata>
+    <name>Function</name>
+    <id>5efec39f-de2a-4c97-8157-1e390f8ec4d8</id>
+    <version>1.0.0</version>
+    <title>Function</title>
+    <description>Plaster Manifest for creating PowerShell functions</description>
+    <author>Constantin Hager</author>
+    <tags>Function</tags>
+  </metadata>
+  <parameters>
+    <parameter name='FunctionName' type='text' prompt='Enter the name of the function.' />
+    <parameter name='FunctionAuthor' type='user-fullname' prompt='Enter your full name' />
+    <parameter name='Company' type='text' prompt='Enter your company name' />
+  </parameters>
+  <content>
+    <templateFile source='functionTemplate.ps1' destination='${PLASTER_PARAM_FunctionName}.ps1'/>
+    <templateFile source='testsTemplate.ps1' destination='${PLASTER_PARAM_FunctionName}.tests.ps1'/>
+  </content>
+</plasterManifest>
