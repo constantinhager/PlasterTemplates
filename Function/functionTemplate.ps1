@@ -10,9 +10,9 @@
     .EXAMPLE
       Example of how to use this cmdlet
     .NOTES
-      Author:
-      Date:
-      Company:
+      Author: <%=$PLASTER_PARAM_FunctionAuthor%>
+      Date: <%=$PLASTER_DATE%>
+      Company: <%=$PLASTER_PARAM_Company%>
   #>
 
     [CmdletBinding()]
