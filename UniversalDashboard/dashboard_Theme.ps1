@@ -2,6 +2,8 @@ $ConfigurationFile = Get-Content (Join-Path $PSScriptRoot dbconfig.json) | Conve
 
 Import-Module (Join-Path $PSScriptRoot $ConfigurationFile.dashboard.rootmodule) -ErrorAction Stop -Force
 
+. (Join-Path -Path $PSScriptRoot -ChildPath "themes\*.ps1")
+
 $PageFolder = Get-ChildItem (Join-Path $PSScriptRoot pages)
 
 $Pages = Foreach ($Page in $PageFolder)

@@ -1,0 +1,51 @@
+{
+    "version": "2.0.0",
+    "windows": {
+        "options": {
+            "shell": {
+                "executable": "C:\\Program Files\\PowerShell\\6\\pwsh.exe",
+                "args": [
+                    "-NoProfile",
+                    "-ExecutionPolicy",
+                    "Bypass",
+                    "-File"
+                ]
+            }
+        }
+    },
+    "linux": {
+        "options": {
+            "shell": {
+                "executable": "/usr/bin/pwsh",
+                "args": [
+                    "-NoProfile",
+                    "-File"
+                ]
+            }
+        }
+    },
+    "osx": {
+        "options": {
+            "shell": {
+                "executable": "/usr/local/bin/pwsh",
+                "args": [
+                    "-NoProfile",
+                    "-File"
+                ]
+            }
+        }
+    },
+    "tasks": [
+        {
+            "label": "Start Dashboard",
+            "type": "shell",
+            "command": "dashboard.ps1",
+            "problemMatcher": [],
+            "presentation": {
+                "reveal": "always",
+                "showReuseMessage": false,
+                "focus": true
+            }
+        }
+    ]
+}
