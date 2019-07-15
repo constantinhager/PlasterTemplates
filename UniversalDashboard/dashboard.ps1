@@ -1,16 +1,6 @@
 $ConfigurationFile = Get-Content (Join-Path $PSScriptRoot dbconfig.json) | ConvertFrom-Json
 
-
 Import-Module (Join-Path $PSScriptRoot $ConfigurationFile.dashboard.rootmodule) -ErrorAction Stop -Force
-
-<%
-If ($PLASTER_PARAM_DashboardTheme -eq 'Yes')
-{
-    @"
-. (Join-Path $PSScriptRoot "themes\*.ps1")
-"@
-}
-%>
 
 $PageFolder = Get-ChildItem (Join-Path $PSScriptRoot pages)
 
@@ -32,4 +22,4 @@ Get-UDDashboard | Stop-UDDashboard
 
 $MyDashboard = New-UDDashboard @DashboardParams
 
-Start-UDDashboard -Port $ConfigurationFile.dashboard.port -Dashboard $MyDashboard -Name $ConfigurationFile.dashboard.title
+Start-UDDashboard -Port $ConfigurationFile.dashboard.port -Dashboard $MyDashboard -Name $ConfigurationFile.dashboard.title -Wait
