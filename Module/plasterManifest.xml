@@ -31,7 +31,7 @@
 
     <file source='_gitignore' destination='${PLASTER_PARAM_ModuleName}\.gitignore'/>
     <file source='ReleaseNotes.md' destination='${PLASTER_PARAM_ModuleName}\ReleaseNotes.md'/>
-    <file source='LICENSE.txt' destination='${PLASTER_PARAM_ModuleName}\LICENSE.txt'/>
+    <templateFile source='LICENSE' destination='${PLASTER_PARAM_ModuleName}\LICENSE'/>
     <file source='default.build.ps1' destination='${PLASTER_PARAM_ModuleName}\default.build.ps1'/>
 
     <file source='tasks.json' destination='${PLASTER_PARAM_ModuleName}\.vscode\tasks.json'/>
