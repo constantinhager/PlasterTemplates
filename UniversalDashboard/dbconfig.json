@@ -1,0 +1,7 @@
+{
+  "dashboard": {
+    "port": "<%=$PLASTER_PARAM_DashboardPort%>",
+    "title": "<%=$PLASTER_PARAM_DashboardTitle%>",
+    "rootmodule": "<%=$PLASTER_PARAM_DashboardTitle%>.psm1"
+  }
+}

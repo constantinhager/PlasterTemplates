@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<plasterManifest schemaVersion="1.1" templateType="Project" 
+  xmlns="http://www.microsoft.com/schemas/PowerShell/Plaster/v1">
+  <metadata>
+    <name>UniversalDashboard</name>
+    <id>f49749a1-ee74-42a2-a411-cb0544209d20</id>
+    <version>1.0.0</version>
+    <title>UniversalDashboard</title>
+    <description>Template to create an Universal Dashboard Project</description>
+    <author>Constantin Hager</author>
+    <tags>UniversalDashboard</tags>
+  </metadata>
+  <parameters>
+    <parameter name='DashboardPort' type='text' default="10000" prompt='Enter the port of the Dashboard' />
+    <parameter name='DashboardTitle' type='text' prompt='Enter the Title for the Dashboard' />
+    <parameter name='DashboardDescription' type='text' prompt='Enter the purpose of the Dashboard' />
+    <parameter name='Author' type='user-fullname' prompt='Enter your full name' />
+  </parameters>
+  <content>
+    <newModuleManifest destination='${PLASTER_PARAM_DashboardTitle}\${PLASTER_PARAM_DashboardTitle}.psd1' moduleVersion='0.1.0' rootModule='${PLASTER_PARAM_DashboardTitle}.psm1' author='$PLASTER_PARAM_Author' description='$PLASTER_PARAM_DashboardDescription' encoding='UTF8-NoBOM' />
+
+    <file source='' destination='${PLASTER_PARAM_DashboardTitle}\assets'/>
+    <file source='' destination='${PLASTER_PARAM_DashboardTitle}\pages'/>
+    <file source='' destination='${PLASTER_PARAM_DashboardTitle}\src'/>
+    <file source='' destination='${PLASTER_PARAM_DashboardTitle}\themes'/>
+    <file source='' destination='${PLASTER_PARAM_DashboardTitle}\endpoints'/>
+
+    <file source='dashboard.ps1' destination='${PLASTER_PARAM_DashboardTitle}\dashboard.ps1'/>
+    <file source='SampleTheme.ps1' destination='${PLASTER_PARAM_DashboardTitle}\themes\SampleTheme.ps1'/>
+
+    <templateFile source='home.ps1' destination='${PLASTER_PARAM_DashboardTitle}\pages\home.ps1'/>
+    <templateFile source='dbconfig.json' destination='${PLASTER_PARAM_DashboardTitle}\dbconfig.json'/>
+
+    <file source='Module.psm1' destination='${PLASTER_PARAM_DashboardTitle}\${PLASTER_PARAM_DashboardTitle}.psm1'/>
+
+  </content>
+</plasterManifest>
