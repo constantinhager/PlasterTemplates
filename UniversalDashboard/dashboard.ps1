@@ -3,7 +3,14 @@ $ConfigurationFile = Get-Content (Join-Path $PSScriptRoot dbconfig.json) | Conve
 
 Import-Module (Join-Path $PSScriptRoot $ConfigurationFile.dashboard.rootmodule) -ErrorAction Stop -Force
 
+<%
+If ($PLASTER_PARAM_DashboardTheme -eq 'Yes')
+{
+    @"
 . (Join-Path $PSScriptRoot "themes\*.ps1")
+"@
+}
+%>
 
 $PageFolder = Get-ChildItem (Join-Path $PSScriptRoot pages)
 

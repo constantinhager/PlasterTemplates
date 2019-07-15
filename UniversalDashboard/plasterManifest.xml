@@ -15,23 +15,46 @@
     <parameter name='DashboardTitle' type='text' prompt='Enter the Title for the Dashboard' />
     <parameter name='DashboardDescription' type='text' prompt='Enter the purpose of the Dashboard' />
     <parameter name='Author' type='user-fullname' prompt='Enter your full name' />
+    <parameter name='DashboardTheme' type='choice' default='0' store='text' prompt='Do you want to add the included theme?'>
+      <choice label='&amp;Yes' help="Adds the included template" value='Yes' />
+      <choice label='&amp;No' help="Adds no template" value='No' />
+    </parameter>
   </parameters>
   <content>
+    <message>Start Scaffolding '$PLASTER_PARAM_DashboardTitle' UniversalDashboard....</message>
+    <message>Creating Manifest File...</message>
     <newModuleManifest destination='${PLASTER_PARAM_DashboardTitle}\${PLASTER_PARAM_DashboardTitle}.psd1' moduleVersion='0.1.0' rootModule='${PLASTER_PARAM_DashboardTitle}.psm1' author='$PLASTER_PARAM_Author' description='$PLASTER_PARAM_DashboardDescription' encoding='UTF8-NoBOM' />
 
+    <message>Adding Folders...</message>
     <file source='' destination='${PLASTER_PARAM_DashboardTitle}\assets'/>
     <file source='' destination='${PLASTER_PARAM_DashboardTitle}\pages'/>
     <file source='' destination='${PLASTER_PARAM_DashboardTitle}\src'/>
     <file source='' destination='${PLASTER_PARAM_DashboardTitle}\themes'/>
     <file source='' destination='${PLASTER_PARAM_DashboardTitle}\endpoints'/>
 
-    <file source='dashboard.ps1' destination='${PLASTER_PARAM_DashboardTitle}\dashboard.ps1'/>
-    <file source='SampleTheme.ps1' destination='${PLASTER_PARAM_DashboardTitle}\themes\SampleTheme.ps1'/>
+    <message condition='$PLASTER_PARAM_DashboardTheme -eq "Yes"'>Adding included theme...</message>
+    <file condition='$PLASTER_PARAM_DashboardTheme -eq "Yes"' source='SampleTheme.ps1' destination='${PLASTER_PARAM_DashboardTitle}\themes\SampleTheme.ps1'/>
 
+    <message>Adding main dashboard file...</message>
+    <templateFile source='dashboard.ps1' destination='${PLASTER_PARAM_DashboardTitle}\dashboard.ps1'/>
+    <message>Adding homepage of dashboard ...</message>
     <templateFile source='home.ps1' destination='${PLASTER_PARAM_DashboardTitle}\pages\home.ps1'/>
+    <message>Adding configfile of the dashboard project...</message>
     <templateFile source='dbconfig.json' destination='${PLASTER_PARAM_DashboardTitle}\dbconfig.json'/>
 
+    <message>Adding Readme.md to the project...</message>
+    <file source='README.md' destination='${PLASTER_PARAM_DashboardTitle}\README.md' />
+
+    <message>Adding PowerShell Module file for the dashboard project...</message>
     <file source='Module.psm1' destination='${PLASTER_PARAM_DashboardTitle}\${PLASTER_PARAM_DashboardTitle}.psm1'/>
+
+    <message>Finished Scaffolding of '$PLASTER_PARAM_DashboardTitle' UniversalDashboard....</message>
+    <message>If you want to add additional pages add them to the pages folder.</message>
+    <message>If you want to add PowerShell functions to that project add them to the src folder.</message>
+    <message>The PowerShell module file imports every PowerShell function file and imports them into the UniversalDashboard runspace.</message>
+    <message>If you want to change the port for example you do that in the dbconfig.json.</message>
+    <message>If you have endpoints you want to add to Start-UDDashboard you can create files there.</message>
+    <message>If you have assets like pictures add It to the assets folder.</message>
 
   </content>
 </plasterManifest>
