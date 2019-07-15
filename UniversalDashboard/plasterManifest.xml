@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<plasterManifest schemaVersion="1.1" templateType="Project" 
+<plasterManifest schemaVersion="1.1" templateType="Project"
   xmlns="http://www.microsoft.com/schemas/PowerShell/Plaster/v1">
   <metadata>
     <name>UniversalDashboard</name>
@@ -23,6 +23,10 @@
       <choice label='&amp;Enterprise' help="You use UniversalDashboard Enterprise" value='UniversalDashboard' />
       <choice label='&amp;Community' help="You use UniversalDashboard.Community" value='UniversalDashboard.Community' />
     </parameter>
+    <parameter name='DashboardPSVersion' type='choice' default='1' store='text' prompt='What PowerShell version do you use?'>
+      <choice label='&amp;Windows PowerShell' help="You use the Windows PowerShell" value='WindowsPowerShell' />
+      <choice label='&amp;Core' help="You use PowerShell Core" value='PowerShellCore' />
+    </parameter>
   </parameters>
   <content>
     <message>Start Scaffolding '$PLASTER_PARAM_DashboardTitle' UniversalDashboard....</message>
@@ -31,6 +35,7 @@
 
     <message>Adding Folders...</message>
     <file source='' destination='${PLASTER_PARAM_DashboardTitle}\assets'/>
+    <file source='' destination='${PLASTER_PARAM_DashboardTitle}\.vscode'/>
     <file source='' destination='${PLASTER_PARAM_DashboardTitle}\pages'/>
     <file source='' destination='${PLASTER_PARAM_DashboardTitle}\src'/>
     <file source='' destination='${PLASTER_PARAM_DashboardTitle}\themes'/>
@@ -40,7 +45,9 @@
     <file condition='$PLASTER_PARAM_DashboardTheme -eq "Yes"' source='SampleTheme.ps1' destination='${PLASTER_PARAM_DashboardTitle}\themes\SampleTheme.ps1'/>
 
     <message>Adding main dashboard file...</message>
-    <templateFile source='dashboard.ps1' destination='${PLASTER_PARAM_DashboardTitle}\dashboard.ps1'/>
+    <file condition='$PLASTER_PARAM_DashboardTheme -eq "Yes"' source='dashboard_Theme.ps1' destination='${PLASTER_PARAM_DashboardTitle}\dashboard.ps1'/>
+    <file condition='$PLASTER_PARAM_DashboardTheme -eq "No"' source='dashboard.ps1' destination='${PLASTER_PARAM_DashboardTitle}\dashboard.ps1'/>
+
     <message>Adding homepage of dashboard ...</message>
     <templateFile source='home.ps1' destination='${PLASTER_PARAM_DashboardTitle}\pages\home.ps1'/>
     <message>Adding configfile of the dashboard project...</message>
@@ -48,6 +55,10 @@
 
     <message>Adding Readme.md to the project...</message>
     <file source='README.md' destination='${PLASTER_PARAM_DashboardTitle}\README.md' />
+
+    <message>Adding tasks.json to the project...</message>
+    <file condition='$PLASTER_PARAM_DashboardPSVersion -eq "WindowsPowerShell"' source='tasks_WPS.json' destination='${PLASTER_PARAM_DashboardTitle}\.vscode\tasks.json' />
+    <file condition='$PLASTER_PARAM_DashboardPSVersion -eq "PowerShellCore"' source='tasks_Core.json' destination='${PLASTER_PARAM_DashboardTitle}\.vscode\tasks.json' />
 
     <message>Adding PowerShell Module file for the dashboard project...</message>
     <file source='Module.psm1' destination='${PLASTER_PARAM_DashboardTitle}\${PLASTER_PARAM_DashboardTitle}.psm1'/>
@@ -63,6 +74,7 @@
     <message>If you want to change the port for example you do that in the dbconfig.json.</message>
     <message>If you have endpoints you want to add to Start-UDDashboard you can create files there.</message>
     <message>If you have assets like pictures add It to the assets folder.</message>
+    <message>If you use VS Code you can use the task 'Start Dashboard'.</message>
 
   </content>
 </plasterManifest>
