@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<plasterManifest schemaVersion="1.1" templateType="Project" 
+<plasterManifest schemaVersion="1.1" templateType="Project"
   xmlns="http://www.microsoft.com/schemas/PowerShell/Plaster/v1">
   <metadata>
     <name>ModuleTemplate</name>
@@ -19,8 +19,10 @@
   <content>
     <message>Start Scaffolding '$PLASTER_PARAM_ModuleName' PowerShell Module....</message>
 
+    <message>Creating the '$PLASTER_PARAM_ModuleName' PowerShell manifest...</message>
     <newModuleManifest destination='${PLASTER_PARAM_ModuleName}\src\${PLASTER_PARAM_ModuleName}.psd1' moduleVersion='$PLASTER_PARAM_ModuleVersion' rootModule='${PLASTER_PARAM_ModuleName}.psm1' author='$PLASTER_PARAM_Author' description='$PLASTER_PARAM_ModuleDesc' encoding='UTF8-NoBOM' />
 
+    <message>Creating Folders...</message>
     <file source='' destination='${PLASTER_PARAM_ModuleName}\.vscode\'/>
     <file source='' destination='${PLASTER_PARAM_ModuleName}\docs\'/>
     <file source='' destination='${PLASTER_PARAM_ModuleName}\docs\en-US'/>
@@ -29,21 +31,27 @@
     <file source='' destination='${PLASTER_PARAM_ModuleName}\src\Graphs\'/>
     <file source='' destination='${PLASTER_PARAM_ModuleName}\Tests\'/>
 
+    <message>Creating Gitignore, ReleaseNotes, License and the buildscript...</message>
     <file source='_gitignore' destination='${PLASTER_PARAM_ModuleName}\.gitignore'/>
     <file source='ReleaseNotes.md' destination='${PLASTER_PARAM_ModuleName}\ReleaseNotes.md'/>
     <templateFile source='LICENSE' destination='${PLASTER_PARAM_ModuleName}\LICENSE'/>
     <file source='default.build.ps1' destination='${PLASTER_PARAM_ModuleName}\default.build.ps1'/>
 
+    <message>Creating the files for VS Code support...</message>
     <file source='tasks.json' destination='${PLASTER_PARAM_ModuleName}\.vscode\tasks.json'/>
     <file source='launch.json' destination='${PLASTER_PARAM_ModuleName}\.vscode\launch.json'/>
 
+    <message>Creating the '$PLASTER_PARAM_ModuleName' PowerShell Module File...</message>
     <file source='Module.psm1' destination='${PLASTER_PARAM_ModuleName}\src\${PLASTER_PARAM_ModuleName}.psm1'/>
 
+    <message>Creating the file for the Graph of the PowerShell Module...</message>
     <templateFile source='CommandFlow.ps1' destination='${PLASTER_PARAM_ModuleName}\src\Graphs\CommandFlow.ps1'/>
 
+    <message>Creating the pester tests for the '$PLASTER_PARAM_ModuleName' PowerShell Module...</message>
     <templateFile source='Module.T.ps1' destination='${PLASTER_PARAM_ModuleName}\Tests\${PLASTER_PARAM_ModuleName}.Tests.ps1'/>
     <templateFile source='Shared.ps1' destination='${PLASTER_PARAM_ModuleName}\Tests\Shared.ps1'/>
 
+    <message>Checking if all the Modules that you need are installed...</message>
     <requireModule name='Pester' minimumVersion='4.8.1' message='Without Pester, you will not be able to run the provided Pester test to validate your module manifest file.`n
                                                                  Without version 4.8.1, VS Code will not display Pester warnings and errors in the Problems panel.'/>
     <requireModule name='platyPS' minimumVersion='0.14.0' message='Without platyPS, you will not be able to generate PowerShell external help for your module using markdown.'/>

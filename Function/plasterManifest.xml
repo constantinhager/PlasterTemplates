@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<plasterManifest schemaVersion="1.1" templateType="Item"
+<plasterManifest schemaVersion="1.1" templateType="Item" 
   xmlns="http://www.microsoft.com/schemas/PowerShell/Plaster/v1">
   <metadata>
     <name>Function</name>
@@ -16,7 +16,9 @@
     <parameter name='Company' type='text' prompt='Enter your company name' />
   </parameters>
   <content>
+    <message>Creating function '$PLASTER_PARAM_FunctionName'...</message>
     <templateFile source='functionTemplate.ps1' destination='${PLASTER_PARAM_FunctionName}.ps1'/>
+    <message>Creating Pester test file for '$PLASTER_PARAM_FunctionName'...</message>
     <templateFile source='testsTemplate.ps1' destination='${PLASTER_PARAM_FunctionName}.tests.ps1'/>
   </content>
 </plasterManifest>
