@@ -2,7 +2,6 @@
 Plaster Templates for Modules, Functions and Universal Dashboard
 
 # TODO
-- Add Plaster Template for Universal Dashboard
 - Add Azure DevOps support for the Module Project
 
 # Note
