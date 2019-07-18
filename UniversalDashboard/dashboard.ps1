@@ -1,8 +1,26 @@
-$ConfigurationFile = Get-Content (Join-Path $PSScriptRoot dbconfig.json) | ConvertFrom-Json
+$ConfigurationFile = Get-Content (Join-Path -Path $PSScriptRoot -ChildPath "dbconfig.json") | ConvertFrom-Json
 
-Import-Module (Join-Path $PSScriptRoot $ConfigurationFile.dashboard.rootmodule) -ErrorAction Stop -Force
+Import-Module (Join-Path -Path $PSScriptRoot -ChildPath $ConfigurationFile.dashboard.rootmodule) -ErrorAction Stop -Force
 
-$PageFolder = Get-ChildItem (Join-Path $PSScriptRoot pages)
+$PageFolder = Get-ChildItem (Join-Path -Path $PSScriptRoot -ChildPath pages)
+
+<%
+if ($PLASTER_PARAM_DashboardTheme -eq 'Yes')
+{
+    ". (Join-Path -Path `$PSScriptRoot -ChildPath 'themes\*.ps1')"
+}
+%>
+
+<%
+if ($PLASTER_PARAM_EndPointSupport -eq 'Yes')
+{
+    "`$EndpointFolder = Get-ChildItem (Join-Path -Path `$PSScriptRoot -ChildPath 'endpoints') -File `n"
+
+    "`$EndPoints = foreach (`$endpoint in `$EndpointFolder) {
+    . `$endpoint.FullName
+}"
+}
+%>
 
 $Pages = Foreach ($Page in $PageFolder)
 {
@@ -22,4 +40,13 @@ Get-UDDashboard | Stop-UDDashboard
 
 $MyDashboard = New-UDDashboard @DashboardParams
 
-Start-UDDashboard -Port $ConfigurationFile.dashboard.port -Dashboard $MyDashboard -Name $ConfigurationFile.dashboard.title -Wait
+<%
+if ($PLASTER_PARAM_EndPointSupport -eq 'Yes')
+{
+    "Start-UDDashboard -Port `$ConfigurationFile.dashboard.port -Dashboard `$MyDashboard -Name `$ConfigurationFile.dashboard.title -Wait -Endpoint `$EndPoints"
+}
+else
+{
+    "Start-UDDashboard -Port `$ConfigurationFile.dashboard.port -Dashboard `$MyDashboard -Name `$ConfigurationFile.dashboard.title -Wait"
+}
+%>
