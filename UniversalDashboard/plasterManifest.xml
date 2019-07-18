@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<plasterManifest schemaVersion="1.1" templateType="Project" 
+<plasterManifest schemaVersion="1.1" templateType="Project"
   xmlns="http://www.microsoft.com/schemas/PowerShell/Plaster/v1">
   <metadata>
     <name>UniversalDashboard</name>
@@ -22,6 +22,10 @@
     <parameter name='EndPointSupport' type='choice' default='0' store='text' prompt='Do you want to add endpoint support?'>
       <choice label='&amp;Yes' help="Adds endpoint support to the project." value='Yes' />
       <choice label='&amp;No' help="Adds no endpoint structure to the project. You have to include It later." value='No' />
+    </parameter>
+    <parameter name='NavBarSupport' type='choice' default='0' store='text' prompt='Do you want to have navigation menu support?'>
+      <choice label='&amp;Yes' help="Adds Navigation structure." value='Yes' />
+      <choice label='&amp;No' help="Adds no initial navigation. You have to include It later." value='No' />
     </parameter>
     <parameter name='DashboardVersion' type='choice' default='1' store='text' prompt='Do you use UniversalDashboard Enterprise or UniversalDashboard.Community?'>
       <choice label='&amp;Enterprise' help="You use UniversalDashboard Enterprise" value='UniversalDashboard' />

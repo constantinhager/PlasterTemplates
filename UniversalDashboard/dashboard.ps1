@@ -3,14 +3,12 @@ $ConfigurationFile = Get-Content (Join-Path -Path $PSScriptRoot -ChildPath "dbco
 Import-Module (Join-Path -Path $PSScriptRoot -ChildPath $ConfigurationFile.dashboard.rootmodule) -ErrorAction Stop -Force
 
 $PageFolder = Get-ChildItem (Join-Path -Path $PSScriptRoot -ChildPath pages)
-
 <%
 if ($PLASTER_PARAM_DashboardTheme -eq 'Yes')
 {
     ". (Join-Path -Path `$PSScriptRoot -ChildPath 'themes\*.ps1')"
 }
 %>
-
 <%
 if ($PLASTER_PARAM_EndPointSupport -eq 'Yes')
 {
@@ -21,20 +19,47 @@ if ($PLASTER_PARAM_EndPointSupport -eq 'Yes')
 }"
 }
 %>
-
 $Pages = Foreach ($Page in $PageFolder)
 {
     . $Page.FullName
 }
-
+<%
+if ($PLASTER_PARAM_NavBarSupport -eq 'Yes')
+{
+    @"
+`$Navigation = New-UDSideNav -Content {
+    New-UDSideNavItem -Text 'Home' -PageName '<%=$PLASTER_PARAM_DashboardTitle%>' -Icon home
+}
+"@
+}
+%>
 $Initialization = New-UDEndpointInitialization -Module @(Join-Path $PSScriptRoot $ConfigurationFile.dashboard.rootmodule)
 
-$DashboardParams = @{
-    Title                  = $ConfigurationFile.dashboard.title
-    Theme                  = $SampleTheme
-    Pages                  = $Pages
-    EndpointInitialization = $Initialization
+<%
+if ($PLASTER_PARAM_NavBarSupport -eq 'Yes')
+{
+    @"
+`$DashboardParams = @{
+    Title                  = `$ConfigurationFile.dashboard.title
+    Theme                  = `$SampleTheme
+    Pages                  = `$Pages
+    EndpointInitialization = `$Initialization
+    Navigation             = `$Navigation
 }
+"@
+}
+else
+{
+    @"
+`$DashboardParams = @{
+    Title                  = `$ConfigurationFile.dashboard.title
+    Theme                  = `$SampleTheme
+    Pages                  = `$Pages
+    EndpointInitialization = `$Initialization
+}
+"@
+}
+%>
 
 Get-UDDashboard | Stop-UDDashboard
 
