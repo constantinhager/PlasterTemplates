@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<plasterManifest schemaVersion="1.1" templateType="Project"
+<plasterManifest schemaVersion="1.1" templateType="Project" 
   xmlns="http://www.microsoft.com/schemas/PowerShell/Plaster/v1">
   <metadata>
     <name>UniversalDashboard</name>
@@ -18,6 +18,10 @@
     <parameter name='DashboardTheme' type='choice' default='0' store='text' prompt='Do you want to add the included theme?'>
       <choice label='&amp;Yes' help="Adds the included template" value='Yes' />
       <choice label='&amp;No' help="Adds no template" value='No' />
+    </parameter>
+    <parameter name='EndPointSupport' type='choice' default='0' store='text' prompt='Do you want to add endpoint support?'>
+      <choice label='&amp;Yes' help="Adds endpoint support to the project." value='Yes' />
+      <choice label='&amp;No' help="Adds no endpoint structure to the project. You have to include It later." value='No' />
     </parameter>
     <parameter name='DashboardVersion' type='choice' default='1' store='text' prompt='Do you use UniversalDashboard Enterprise or UniversalDashboard.Community?'>
       <choice label='&amp;Enterprise' help="You use UniversalDashboard Enterprise" value='UniversalDashboard' />
@@ -45,13 +49,15 @@
     <file condition='$PLASTER_PARAM_DashboardTheme -eq "Yes"' source='SampleTheme.ps1' destination='${PLASTER_PARAM_DashboardTitle}\themes\SampleTheme.ps1'/>
 
     <message>Adding main dashboard file...</message>
-    <file condition='$PLASTER_PARAM_DashboardTheme -eq "Yes"' source='dashboard_Theme.ps1' destination='${PLASTER_PARAM_DashboardTitle}\dashboard.ps1'/>
-    <file condition='$PLASTER_PARAM_DashboardTheme -eq "No"' source='dashboard.ps1' destination='${PLASTER_PARAM_DashboardTitle}\dashboard.ps1'/>
+    <templateFile source='dashboard.ps1' destination='${PLASTER_PARAM_DashboardTitle}\dashboard.ps1' />
 
     <message>Adding homepage of dashboard ...</message>
     <templateFile source='home.ps1' destination='${PLASTER_PARAM_DashboardTitle}\pages\home.ps1'/>
     <message>Adding configfile of the dashboard project...</message>
     <templateFile source='dbconfig.json' destination='${PLASTER_PARAM_DashboardTitle}\dbconfig.json'/>
+
+    <message condition='$PLASTER_PARAM_EndPointSupport -eq "Yes"'>Adding initial endpoint script endpoints.ps1 into folder endpoints...</message>
+    <file source='endpoint.ps1' destination='${PLASTER_PARAM_DashboardTitle}\endpoints\endpoint.ps1' />
 
     <message>Adding Readme.md to the project...</message>
     <file source='README.md' destination='${PLASTER_PARAM_DashboardTitle}\README.md' />
@@ -68,11 +74,11 @@
     <requireModule condition='$PLASTER_PARAM_DashboardVersion -eq "UniversalDashboard.Community"' name='UniversalDashboard.Community' minimumVersion='2.5.2' />
 
     <message>Finished Scaffolding of '$PLASTER_PARAM_DashboardTitle' UniversalDashboard....</message>
+    <message condition='$PLASTER_PARAM_EndPointSupport -eq "Yes"'>endpoints.ps1 was created for you in folder endpoints. Add your logic to that one.</message>
     <message>If you want to add additional pages add them to the pages folder.</message>
     <message>If you want to add PowerShell functions to that project add them to the src folder.</message>
     <message>The PowerShell module file imports every PowerShell function file and imports them into the UniversalDashboard runspace.</message>
     <message>If you want to change the port for example you do that in the dbconfig.json.</message>
-    <message>If you have endpoints you want to add to Start-UDDashboard you can create files there.</message>
     <message>If you have assets like pictures add It to the assets folder.</message>
     <message>If you use VS Code you can use the task 'Start Dashboard'.</message>
 
