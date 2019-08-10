@@ -7,7 +7,7 @@
     <version>0.1.0</version>
     <title>Module</title>
     <description>My sample module Template</description>
-    <author></author>
+    <author>Constantin Hager</author>
     <tags>Module, Build</tags>
   </metadata>
   <parameters>
