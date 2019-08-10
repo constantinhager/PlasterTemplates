@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<plasterManifest schemaVersion="1.1" templateType="Project"
+<plasterManifest schemaVersion="1.1" templateType="Project" 
   xmlns="http://www.microsoft.com/schemas/PowerShell/Plaster/v1">
   <metadata>
     <name>ModuleTemplate</name>
@@ -15,6 +15,13 @@
     <parameter name='ModuleDesc' type='text' prompt='Enter a description for the module' />
     <parameter name='Author' type='user-fullname' prompt='Enter your full name' />
     <parameter name='ModuleVersion' type='text' default='0.1.0' prompt='Enter the version of the module' />
+    <parameter name='DevOpsSupport' type='choice' store='text' prompt='Do you want Azure Pipelines Support?'>
+      <choice label='&amp;AllOS' help='Adds a multi OS CI / CD Build Pipeline' value='MultiOS' />
+      <choice label='&amp;Windows Pipeline' help='Add a Windows only CI / CD Build Pipeline' value='Windows' />
+      <choice label='&amp;MacOS Pipeline' help='Add a MacOS only CI / CD Build Pipeline' value='MacOS' />
+      <choice label='&amp;Linux Pipeline' help='Add a Linux only CI / CD Build Pipeline' value='Linux' />
+      <choice label='&amp;No Support' help='Adds no CI / CD Build Pipeline' value='None' />
+    </parameter>
   </parameters>
   <content>
     <message>Start Scaffolding '$PLASTER_PARAM_ModuleName' PowerShell Module....</message>
@@ -30,12 +37,17 @@
     <file source='' destination='${PLASTER_PARAM_ModuleName}\src\Public\'/>
     <file source='' destination='${PLASTER_PARAM_ModuleName}\src\Graphs\'/>
     <file source='' destination='${PLASTER_PARAM_ModuleName}\Tests\'/>
+    <file source='' destination='${PLASTER_PARAM_ModuleName}\azure-pipelines' condition='($PLASTER_PARAM_DevOpsSupport -ne "None") -and ($PLASTER_PARAM_DevOpsSupport -eq "Windows") -and ($PLASTER_PARAM_DevOpsSupport -eq "Linux") -and ($PLASTER_PARAM_DevOpsSupport -eq "MacOS")' />
+    <file source='' destination='${PLASTER_PARAM_ModuleName}\azure-pipelines\stages' condition='$PLASTER_PARAM_DevOpsSupport -eq "MultiOS"' />
+    <file source='' destination='${PLASTER_PARAM_ModuleName}\azure-pipelines\stages\Build' condition='$PLASTER_PARAM_DevOpsSupport -eq "MultiOS"' />
+    <file source='' destination='${PLASTER_PARAM_ModuleName}\azure-pipelines\stages\Deploy' condition='$PLASTER_PARAM_DevOpsSupport -eq "MultiOS"' />
 
     <message>Creating Gitignore, ReleaseNotes, License and the buildscript...</message>
     <file source='_gitignore' destination='${PLASTER_PARAM_ModuleName}\.gitignore'/>
     <file source='ReleaseNotes.md' destination='${PLASTER_PARAM_ModuleName}\ReleaseNotes.md'/>
     <templateFile source='LICENSE' destination='${PLASTER_PARAM_ModuleName}\LICENSE'/>
     <file source='default.build.ps1' destination='${PLASTER_PARAM_ModuleName}\default.build.ps1'/>
+    <file source='default.build.azdevops.ps1' destination='${PLASTER_PARAM_ModuleName}\default.build.azdevops.ps1' condition='$PLASTER_PARAM_DevOpsSupport -ne "None"'/>
 
     <message>Creating the files for VS Code support...</message>
     <file source='tasks.json' destination='${PLASTER_PARAM_ModuleName}\.vscode\tasks.json'/>
@@ -46,6 +58,25 @@
 
     <message>Creating the file for the Graph of the PowerShell Module...</message>
     <templateFile source='CommandFlow.ps1' destination='${PLASTER_PARAM_ModuleName}\src\Graphs\CommandFlow.ps1'/>
+    <templateFile source='CommandFlow.azdevops.ps1' destination='${PLASTER_PARAM_ModuleName}\src\Graphs\CommandFlow.azdevops.ps1' condition='$PLASTER_PARAM_DevOpsSupport -ne "None"'/>
+
+    <message condition='$PLASTER_PARAM_DevOpsSupport -ne "None"'>Createting AzureDevOps Pipeline Files...</message>
+
+    <message condition='$PLASTER_PARAM_DevOpsSupport -eq "MultiOS"'>Creating Files for MultiOS support... </message>
+    <file source='azure-pipelines\multiOS\stages\Build\linux.yml' destination='${PLASTER_PARAM_ModuleName}\azure-pipelines\stages\Build\linux.yml' condition='$PLASTER_PARAM_DevOpsSupport -eq "MultiOS"' />
+    <file source='azure-pipelines\multiOS\stages\Build\windows.yml' destination='${PLASTER_PARAM_ModuleName}\azure-pipelines\stages\Build\windows.yml' condition='$PLASTER_PARAM_DevOpsSupport -eq "MultiOS"' />
+    <file source='azure-pipelines\multiOS\stages\Build\macos.yml' destination='${PLASTER_PARAM_ModuleName}\azure-pipelines\stages\Build\macos.yml' condition='$PLASTER_PARAM_DevOpsSupport -eq "MultiOS"' />
+    <file source='azure-pipelines\multiOS\stages\Deploy\linux.yml' destination='${PLASTER_PARAM_ModuleName}\azure-pipelines\stages\Deploy\linux.yml' condition='$PLASTER_PARAM_DevOpsSupport -eq "MultiOS"' />
+    <file source='azure-pipelines\multiOS\azure-pipelines.yml' destination='${PLASTER_PARAM_ModuleName}\azure-pipelines.yml' condition='$PLASTER_PARAM_DevOpsSupport -eq "MultiOS"' />
+
+    <message condition='$PLASTER_PARAM_DevOpsSupport -eq "Windows"'>Creating Files for Windows support... </message>
+    <file source='azure-pipelines\singleOS\azure-pipelines_Windows.yml' destination='${PLASTER_PARAM_ModuleName}\azure-pipelines.yml' condition='$PLASTER_PARAM_DevOpsSupport -eq "Windows"' />
+
+    <message condition='$PLASTER_PARAM_DevOpsSupport -eq "Linux"'>Creating Files for Linux support... </message>
+    <file source='azure-pipelines\singleOS\azure-pipelines_Linux.yml' destination='${PLASTER_PARAM_ModuleName}\azure-pipelines.yml' condition='$PLASTER_PARAM_DevOpsSupport -eq "Linux"' />
+
+    <message condition='$PLASTER_PARAM_DevOpsSupport -eq "MacOS"'>Creating Files for MacOS support... </message>
+    <file source='azure-pipelines\singleOS\azure-pipelines_MacOS.yml' destination='${PLASTER_PARAM_ModuleName}\azure-pipelines.yml' condition='$PLASTER_PARAM_DevOpsSupport -eq "MacOS"' />
 
     <message>Creating the pester tests for the '$PLASTER_PARAM_ModuleName' PowerShell Module...</message>
     <templateFile source='Module.T.ps1' destination='${PLASTER_PARAM_ModuleName}\Tests\${PLASTER_PARAM_ModuleName}.Tests.ps1'/>

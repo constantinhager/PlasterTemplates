@@ -1,0 +1,20 @@
+stages:
+- stage: Build
+  jobs:
+    - template: 'azure-pipelines/stages/Build/windows.yml'
+      parameters:
+        vmImage: 'windows-latest'
+    - template: 'azure-pipelines/stages/Build/linux.yml'
+      parameters:
+        vmImage: 'ubuntu-latest'
+    - template: 'azure-pipelines/stages/Build/macos.yml'
+      parameters:
+        vmImage: 'macOS-latest'
+- stage: Deploy
+  dependsOn: Build
+  condition: succeeded()
+  jobs:
+    - template: 'azure-pipelines/stages/Deploy/linux.yml'
+      parameters:
+        vmImage: 'ubuntu-latest'
+

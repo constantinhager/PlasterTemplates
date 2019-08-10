@@ -1,0 +1,55 @@
+parameters:
+  vmImage:
+
+jobs:
+- job: 'MacOS'
+
+  pool:
+   vmImage: ${{ parameters.vmImage }}
+
+  steps:
+  - task: PowerShell@2
+    inputs:
+      targetType: 'inline'
+      script: |
+          Install-Module -Name Pester -Force -Verbose -AllowClobber
+          Install-Module -Name InvokeBuild -Force -Verbose -AllowClobber
+          Install-Module -Name PlatyPS -Force -Verbose -AllowClobber
+          Install-Module -Name PSGraph -Force -Verbose -AllowClobber
+      pwsh: true
+    displayName: 'Install InvokeBuild, Pester, PlatyPS and PSGraph.'
+
+  - task: Bash@3
+    inputs:
+      targetType: inline
+      script: 'brew install graphviz'
+    displayName: 'Install graphviz on MacOS'
+
+  - task: PowerShell@2
+    inputs:
+        targetType: 'inline'
+        script: |
+          Invoke-Build -File './default.build.azdevops.ps1' -Verbose
+        pwsh: true
+    displayName: 'Build Module'
+
+  - task: PublishTestResults@2
+    inputs:
+        testResultsFormat: 'NUnit'
+        testResultsFiles: 'testResults*.xml'
+        searchFolder: '$(Build.Repository.LocalPath)'
+    displayName: 'Publish Pester Testresults back To Azure DevOps'
+
+  - task: CopyFiles@2
+    inputs:
+      SourceFolder: '$(Build.Repository.LocalPath)/Release'
+      Contents: '**'
+      TargetFolder: '$(Build.ArtifactStagingDirectory)'
+    displayName: 'Copy Release Folder to Staging Directory'
+
+  - task: PublishBuildArtifacts@1
+    inputs:
+        PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+        ArtifactName: 'drop'
+        publishLocation: 'Container'
+    displayName: 'Publish Artifact to Azure DevOps'
