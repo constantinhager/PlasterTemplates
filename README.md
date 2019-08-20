@@ -92,6 +92,30 @@ You have to answer three questions:
 - The author of the function
 - The company where the author works
 
+The screen will look like this:
+
+![PlasterScreen](Assets/Function/PlasterScreen.png)
+
+The File structure should look like this:
+
+![Function Explorer](Assets/Function/FunctionExplorer.png)
+
+If you open your function file the following things are already there:
+
+- The function has the name that you provided earlier.
+- Comment based help is added also. In the notes section you will find information
+  about the Author, the Date when the function was created and the company that the
+  user provided.
+- An empty parameter is also added in the template.
+
+The function looks like this:
+
+![Function](Assets/Function/Function.png)
+
+The second file is the Pester test file for that function.
+
+![Pester Test](Assets/Function/Test.png)
+
 # Note
 
 This was inspired by the Plaster Project Template [NewModule](https://github.com/PowerShell/Plaster/tree/master/examples/NewModule)
