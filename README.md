@@ -83,6 +83,8 @@ This is the easiest Plaster template in this collection. You do not need any pre
 Just ran
 
 ```powershell
+$TemplatePath = ((Get-PlasterTemplate -IncludeInstalledModules).where{$_.Title -eq "Function"}).TemplatePath
+
 Invoke-Plaster -TemplatePath $TemplatePath -DestinationPath "Your Destination"
 ```
 
@@ -115,6 +117,66 @@ The function looks like this:
 The second file is the Pester test file for that function.
 
 ![Pester Test](Assets/Function/Test.png)
+
+## Universal Dashboard
+
+Note:
+You need to have the current PowerShell get installed, because the module Author
+wants you to accept a license agreement.
+
+You update to the current version of PowerShell get by running the following
+PowerShell Script:
+
+```powershell
+Install-Module -Name PowerShellGet -Force
+```
+
+Restart you current PowerShell session to work with the current PowerShell Get.
+
+Before you use this you need UniversalDashboard or UniversalDashboard.Community.
+You can install one of the products by executing the following PowerShell scripts:
+
+UniversalDashboard
+
+```powershell
+Install-Module -Name UniversalDashboard -AcceptLicense
+```
+
+UniversalDashboard.Community
+
+```powershell
+Install-Module -Name UniversalDashboard.Community -AcceptLicense
+```
+
+After installing UniversalDashboard run the template
+
+```powershell
+$TemplatePath = ((Get-PlasterTemplate -IncludeInstalledModules).where{$_.Title -eq "UniversalDashboard"}).TemplatePath
+
+Invoke-Plaster -TemplatePath $TemplatePath -DestinationPath "Your Destination"
+```
+
+You have to answer the following questions:
+
+- The port of the dashboard (Standard is 10000)
+- The title of the dashboard
+- A description of the dashboard
+- The author of the dashboard
+- Do you want to include a custom theme?
+- Do you want to add one endpoint to your dashboard?
+- Do you want to have a included navigation bar support?
+- What Dashboard version do you use? UniversalDashboard or UniversalDashboard.Community
+- Do you want to run your Dashboard in Windows PowerShell or on PowerShell Core?
+
+The Plaster experience should look like this:
+
+![Plaster](Assets/UniversalDashboard/PlasterScreen.png)
+
+The example below shows a sample folder structure
+
+![FolderStructure](Assets/UniversalDashboard/SampleFolderStructure.png)
+
+
 
 # Note
 
