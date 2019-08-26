@@ -118,6 +118,8 @@ The second file is the Pester test file for that function.
 
 ![Pester Test](Assets/Function/Test.png)
 
+## Module
+
 ## Universal Dashboard
 
 Note:
@@ -172,9 +174,26 @@ The Plaster experience should look like this:
 
 ![Plaster](Assets/UniversalDashboard/PlasterScreen.png)
 
-The example below shows a sample folder structure
+The example below shows a sample folder structure If you answer all questions with Yes.
 
 ![FolderStructure](Assets/UniversalDashboard/SampleFolderStructure.png)
+
+### Explanation of folder structure
+
+- .vscode: If you use VS Code the template created a task to launch the dashboard.
+- assets: this is an empty folder for pictures and so on.
+- endpoints: If you want to use the dashboard to precache data you can implement that in the endpoint.ps1
+- pages: the folder where all your pages for universal dashboard are stored.
+- src: All functions of the dashboard module (in this case TestDashBoard.psm1) should be stored there. Create a file for every function. All functions will be picked up and imported in the runspace of the dashboard.
+- themes: A sample theme is already there. This will be automatically imported. It can be extended if needed.
+- dashboard.ps1: Call this script to execute the dashboard.
+- dbconfig.json: This file can be extended as you like. Initial values are:
+  - port
+  - title
+  - rootmodule.
+- README.md: The manual for your dashboard.
+- TestDashBoard.psd1: The module manifest for the dashboard module.
+- TestDashBoard.psm1: The module file for the dashboard module.
 
 # Note
 
