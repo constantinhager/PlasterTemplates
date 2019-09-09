@@ -120,6 +120,38 @@ The second file is the Pester test file for that function.
 
 ## Module
 
+Note:
+You need to have the following modules installed:
+
+- Pester
+- PSGraph
+- InvokeBuild
+- PlatyPS
+
+Their availability will also be checked in the plaster module scaffolding process.
+
+To scaffold a module please run the following code:
+
+```powershell
+$TemplatePath = ((Get-PlasterTemplate -IncludeInstalledModules).where{$_.Title -eq "Module"}).TemplatePath
+
+Invoke-Plaster -TemplatePath $TemplatePath -DestinationPath "Your Destination"
+```
+
+You have to answer the following questions:
+
+- Name of the module
+- Description of the module
+- Author of the module
+- Version of the module
+- Azure Pipelines Support?
+  - Multi OS
+  - Linux
+  - Mac OS
+  - Windows
+
+
+
 ## Universal Dashboard
 
 Note:
