@@ -150,7 +150,39 @@ You have to answer the following questions:
   - Mac OS
   - Windows
 
+The Plaster experience should look like this:
 
+![PlasterScreen1](Assets/Module/PlasterScreen1.png)
+![PlasterScreen2](Assets/Module/PlasterScreen2.png)
+
+The example below shows a sample folder structure.
+
+![SampleFolderStructure](Assets/Module/SampleFolderStructure.png)
+
+### Explanation of folder structure
+
+- .vscode: If you use VS Code the template created a task to launch the dashboard.
+- docs\en-US: The help files that are build with platyPS are stored there. This folder gets updated with every CI build through
+  Azure DevOps or you can run the build script locally to add the help markdown files but the preferred way is through the
+  Azure DevOps CI pipeline.
+- src\Graphs: This module makes use of the PSGraph module. There is a basic graph visualization of all your functions. You
+  do not need to change this files. You can run the build script with the vscode task runner to create one.
+- src\Private: Store all your functions in this folder that should not be exposed through the module. Create a file for every
+  function you write.
+- src\Public: Store all your functions in this folder that should be exposed through the module. Create a file for every
+  function you write.
+- src\MyTestModule.psd1: The module manifest for the module that you develop.
+- src\MyTestModule.psm1: The module file where you can implement all your functions or you can use a loop to import them
+  automatically at module runtime.
+- Tests: The folder where all your tests should be stored
+- Tests\MyTestModule.Tests.ps1: Some basic tests for your module. The module manifest will be tested and also every function
+  will be tested for correct PowerShell code
+- Tests\Shared.ps1: All stuff that is needed by all the tests should be added there.
+- azure-pipelines.yml: The CI / CD Pipeline for Azure DevOps. This pipeline will build, test and deploy your code to
+  the PowerShell Gallery. If you want to Publish your Module to the PowerShell Gallery you need to create a Pipeline variable
+  PSGallery. This variable needs to be a secret.
+- default.build.azdevops.ps1: The build script for Azure DevOps
+- default.build.ps1: The build script for building the code locally.
 
 ## Universal Dashboard
 
