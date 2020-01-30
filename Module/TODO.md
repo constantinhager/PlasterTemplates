@@ -1,4 +1,0 @@
-- Publish to NuGet Gallery
-- Azure Pipelines.yml
-  - Build
-  - Release Pipeline
